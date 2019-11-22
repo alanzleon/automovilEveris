@@ -11,5 +11,7 @@ public interface IAutomovilService {
     String saveAutomovil (Automovil auto);
     List<Automovil> findAutomoviles ();
     void updateAuto (Automovil auto, String id);
-    Optional<Automovil> findAutoById(String id);
+    Automovil findAutoById(String id);
+    Optional<Automovil> findAllById(String id);
+
 }

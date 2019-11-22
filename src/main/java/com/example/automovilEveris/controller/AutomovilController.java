@@ -20,6 +20,20 @@ public class AutomovilController {
         return ResponseEntity.ok(this.service.findAutomoviles());
     }
 
+    @GetMapping("/getById")
+    public ResponseEntity<?> getAutomovilById(String patente){
+        ResponseEntity<?> response;
+        try{
+            Automovil auto = this.service.findAutoById(patente);
+            response = new ResponseEntity<>(auto, HttpStatus.OK);
+        }catch (Exception ex) {
+            System.out.println(ex);
+            response = new ResponseEntity<>("{\"Error\":\"Sin resultado, verifique formato patente\"}",HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+        return response;
+
+    }
+
     @PostMapping("/addAutomovil")
     public ResponseEntity<?> addAutomovil (@RequestBody Automovil auto){
         ResponseEntity<?> response;

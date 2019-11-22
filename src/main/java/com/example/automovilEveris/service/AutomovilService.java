@@ -6,6 +6,7 @@ import com.example.automovilEveris.repository.IAutomovilRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.List;
 import java.util.Optional;
@@ -20,10 +21,8 @@ public class AutomovilService implements IAutomovilService{
     @Override
     public String saveAutomovil(Automovil auto) {
         String response="";
-        //Automovil newAuto;
 
                     if (auto.getFabricado() >= 2000) {
-
                         if (auto.getFabricado() <= 2007 && isPatternMatcher("[A-Z]{2}[1-9]{1}[0-9]{3}", auto.getPatente())) {
                             this.repository.save(auto);
                             response = "Automovil agregado!";
@@ -39,21 +38,40 @@ public class AutomovilService implements IAutomovilService{
     return response;
     }
 
+    //busca todos los autos
     @Override
     public List<Automovil> findAutomoviles() {
         return this.repository.findAll();
     }
 
+    //actualiza la info de un auto
     @Override
-    public void updateAuto(Automovil auto, String id) {
-        auto.setId(id);
+    public void updateAuto(Automovil auto, String patente) {
+        auto.setId(patente);
         this.repository.save(auto);
     }
 
+    //encuentra un auto segun patente
     @Override
-    public Optional<Automovil> findAutoById(String id) {
-        return this.repository.findById(id);
+    public Automovil findAutoById(@PathVariable String patente) {
+        return this.repository.findById(patente).get();
+        /*if (isPatternMatcher("[A-Z]{2}[1-9]{1}[0-9]{3}", patente)||isPatternMatcher("[BCDFGHJKLPRSTVWXYZ]{4}[0-9]{2}",patente)){
+            return this.repository.findById(patente).get();
+        }
+        else {
+        return null;}*/
     }
+
+    @Override
+    public Optional<Automovil> findAllById(String id) {
+        String status="Libre";
+        //this.repository.findAllById(status);
+        return Optional.empty();
+    }
+
+
+
+    //verifica formato de ingreso
     //cortesia de Lisandro
     private boolean isPatternMatcher(String exp, String val) throws NullPointerException {
         Pattern p = Pattern.compile(exp);
