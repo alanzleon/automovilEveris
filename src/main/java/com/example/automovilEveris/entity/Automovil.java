@@ -10,26 +10,32 @@ import java.util.Date;
 import java.util.List;
 
 @Data
-@Document(value = "automovil")
+@Document(value = "automoviles")
 public class Automovil {
     @Id
     @NotNull
     private String id;
     @NotNull
     private String patente;
-
+    @NotNull
     private String marca;
+    @NotNull
     private String modelo;
+    @NotNull
     private String color;
+    @NotNull
     private int fabricado;
-    private String tipo;//{citycar, grande, suv, altaGama}
-    private boolean aireAcondicionado;
+    @NotNull
+    private String tipo;//{Citycar, Descapotable, SUV, AltaGama}
+    @NotNull
     private int numAsientos;
-    private String numMotor;
-    private String numChasis;
+    @NotNull
     private String numRevisionTecnica;
+    @NotNull
     private Date fechaVctoRevision;
-    private String estadoArriendo;
+    @NotNull
+    private String estadoArriendo;//{Disponible, Mantencion, Arrendado}
+    @NotNull
     private float valorDiario;
 
 

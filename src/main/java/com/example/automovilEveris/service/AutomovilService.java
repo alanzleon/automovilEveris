@@ -2,14 +2,10 @@ package com.example.automovilEveris.service;
 
 import com.example.automovilEveris.entity.Automovil;
 import com.example.automovilEveris.repository.IAutomovilRepository;
-
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -19,54 +15,67 @@ public class AutomovilService implements IAutomovilService{
     private IAutomovilRepository repository;
 
     @Override
-    public String saveAutomovil(Automovil auto) {
+    public String guardarAutomovil(Automovil auto) {
         String response="";
+                    if (auto.getFabricado() >= 2000 && auto.getFabricado()<2020) {
+                        if(auto.getMarca()!=null&&auto.getModelo()!=null&&auto.getNumRevisionTecnica()!=null&&auto.getFechaVctoRevision()!=null&&auto.getValorDiario()!=0.0) {
+                            if (auto.getTipo().toUpperCase().equals("CITYCAR") || auto.getTipo().toUpperCase().equals("SUV") || auto.getTipo().toUpperCase().equals("DESCAPOTABLE") ||
+                                    auto.getTipo().toUpperCase().equals("ALTAGAMA")) {
+                                if (auto.getEstadoArriendo().toUpperCase().equals("ARRENDADO") || auto.getEstadoArriendo().toUpperCase().equals("DISPONIBLE") ||
+                                        auto.getEstadoArriendo().toUpperCase().equals("MANTENCION")) {
+                                    if (auto.getNumAsientos() < 10 && auto.getNumAsientos() >= 2) {
+                                        if (auto.getFabricado() <= 2007 && isPatternMatcher("[A-Z]{2}[1-9]{1}[0-9]{3}", auto.getPatente())) {
+                                            this.repository.save(auto);
+                                            response = "Automovil agregado!";
+                                        } else if (auto.getFabricado() > 2007 && isPatternMatcher("[BCDFGHJKLPRSTVWXYZ]{4}[0-9]{2}", auto.getPatente())) {
+                                            this.repository.save(auto);
+                                            response = "Automovil agregado!";
+                                        } else {
+                                            response = "Formato de patente invalido";
+                                        }
+                                    } else {
+                                        response = "numero de asientos invalido";
+                                    }
+                                } else {
+                                    response = "estado de automovil no valido";
+                                }
+                            } else {
+                                response = "tipo de auto no valido";
+                            }
 
-                    if (auto.getFabricado() >= 2000) {
-                        if (auto.getFabricado() <= 2007 && isPatternMatcher("[A-Z]{2}[1-9]{1}[0-9]{3}", auto.getPatente())) {
-                            this.repository.save(auto);
-                            response = "Automovil agregado!";
-                        } else if (auto.getFabricado() > 2007 && isPatternMatcher("[BCDFGHJKLPRSTVWXYZ]{4}[0-9]{2}", auto.getPatente())) {
-                            this.repository.save(auto);
-                        } else {
-                            response = "Formato de patente invalido";
                         }
-                    } else {
-                        response = "No se puede ingresar un vehiculo anterior al 2000";
+                        else {
+                            response = "complete todos los campos";}
                     }
-
-    return response;
+                    else { response = "No se puede ingresar un vehiculo anterior al 2000"; }
+        return response;
     }
 
     //busca todos los autos
     @Override
-    public List<Automovil> findAutomoviles() {
+    public List<Automovil> obtenerAutomoviles() {
         return this.repository.findAll();
     }
 
     //actualiza la info de un auto
-    @Override
-    public void updateAuto(Automovil auto, String patente) {
-        auto.setId(patente);
+
+    /*public String updateAuto(String patente, Automovil auto) {
+        Automovil autoEnBd = this.repository.findByPatente(patente);
         this.repository.save(auto);
-    }
+        return patente;
+    }*/
 
     //encuentra un auto segun patente
     @Override
-    public Automovil findAutoById(@PathVariable String patente) {
-        return this.repository.findById(patente).get();
-        /*if (isPatternMatcher("[A-Z]{2}[1-9]{1}[0-9]{3}", patente)||isPatternMatcher("[BCDFGHJKLPRSTVWXYZ]{4}[0-9]{2}",patente)){
-            return this.repository.findById(patente).get();
-        }
-        else {
-        return null;}*/
+    public Automovil findAutoByPatente(String patente) {
+        return this.repository.findByPatente(patente);
+
     }
 
     @Override
-    public Optional<Automovil> findAllById(String id) {
-        String status="Libre";
-        //this.repository.findAllById(status);
-        return Optional.empty();
+    public List<Automovil> findAutosByEstadoArriendo(String status) {
+        return this.repository.findAutomovilesByEstadoArriendo(status);
+
     }
 
 
