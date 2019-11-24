@@ -12,13 +12,15 @@ import java.util.List;
 public interface IAutomovilRepository extends MongoRepository<Automovil, Serializable> {
 
     Automovil findByPatente (String patente);
-
+    void deleteById(String id);
 
     @Query("{'estadoArriendo':?0}")
     List<Automovil> findAutomovilesByEstadoArriendo (String estadoArriendo);
 
     @Query(" $set: {'estadoArriendo':?0}")
-    void UpdateAutomovilStatus(String estadoArriendo, Automovil auto);
+    void UpdateAutomovilStatus(String estadoArriendo);
+
+
 
 
 }

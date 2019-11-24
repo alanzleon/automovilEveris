@@ -10,10 +10,10 @@ public interface IAutomovilService {
 
     String guardarAutomovil (Automovil auto);
     List<Automovil> obtenerAutomoviles ();
-    //String updateAuto ( String patente,Automovil auto);
     Automovil findAutoByPatente(String id);
-    String updateAuto(String param, String patente);
+    String actualizarAuto(Automovil auto, String patente);
     List<Automovil> findAutosByEstadoArriendo(String status);
+    void eliminarAutomovil(String patente);
 
 
 }
