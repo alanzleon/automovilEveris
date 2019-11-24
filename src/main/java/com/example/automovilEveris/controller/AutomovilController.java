@@ -121,10 +121,12 @@ import java.util.Map;
 */
                     @PostMapping("/addAutomovil")
                     public ResponseEntity<?> addAutomovil (@RequestBody Automovil auto){
+
                         ResponseEntity<?> response;
                         String respuestaService = this.service.guardarAutomovil(auto);
+
                         try {
-                            if (respuestaService.equals("Automovil agregado"))
+                            if (respuestaService.equals("Automovil agregado!"))
                             {
                                 response = mensajeHttp("{\"Mensaje\":\"Automovil ingresado correctamente\"}", HttpStatus.CREATED);
                                 String response1 = this.service.guardarAutomovil(auto);
@@ -149,6 +151,10 @@ import java.util.Map;
                             else if (respuestaService.equals("No se puede ingresar un vehiculo anterior al 2000"))
                             {
                                 response = new ResponseEntity<>("{\"Error\":\"No es posible ingresar un vehiculo anterior al año 2000\"}", HttpStatus.BAD_REQUEST);
+                            }
+                            else if (respuestaService.equals("patente se encuentra registrada"))
+                            {
+                                response = new ResponseEntity<>("{\"Error\":\"Patente ingresada ya se encuentra en el sistema\"}", HttpStatus.BAD_REQUEST);
                             }
                             else
                                 {

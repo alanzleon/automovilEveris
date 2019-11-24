@@ -19,47 +19,40 @@ public class AutomovilService implements IAutomovilService{
     @Override
     public String guardarAutomovil(Automovil auto) {
         String response="";
-                    if (auto.getFabricado() >= 2000 && auto.getFabricado()<2020) {
-                        if(auto.getMarca()!=null&&auto.getModelo()!=null&&auto.getNumRevisionTecnica()!=null&&auto.getFechaVctoRevision()!=null&&auto.getValorDiario()!=0.0) {
-                            if (auto.getTipo().toUpperCase().equals("CITYCAR") || auto.getTipo().toUpperCase().equals("SUV") || auto.getTipo().toUpperCase().equals("DESCAPOTABLE") ||
-                                    auto.getTipo().toUpperCase().equals("ALTAGAMA")) {
-                                if (auto.getEstadoArriendo().toUpperCase().equals("ARRENDADO") || auto.getEstadoArriendo().toUpperCase().equals("DISPONIBLE") ||
-                                        auto.getEstadoArriendo().toUpperCase().equals("MANTENCION")) {
-                                    if (auto.getNumAsientos() < 10 && auto.getNumAsientos() >= 2) {
-                                        if (auto.getFabricado() <= 2007 && isPatternMatcher("[A-Z]{2}[1-9]{1}[0-9]{3}", auto.getPatente())) {
-                                            this.repository.save(auto);
-                                            response = "Automovil agregado!";
-                                        }
-                                        else if (auto.getFabricado() > 2007 && isPatternMatcher("[BCDFGHJKLPRSTVWXYZ]{4}[0-9]{2}", auto.getPatente()))
-                                        {
-                                            this.repository.save(auto);
-                                            response = "Automovil agregado!";
-                                        }
-                                        else
-                                            {
-                                            response = "Formato de patente invalido";
-                                        }
-                                    }
-                                    else
-                                        {
-                                        response = "numero de asientos entre 2 - 9";
-                                    }
+        if(this.repository.findByPatente(auto.getPatente()) == null) {
+            if (auto.getFabricado() >= 2000 && auto.getFabricado() < 2020) {
+                if (auto.getMarca() != null && auto.getModelo() != null && auto.getNumRevisionTecnica() != null && auto.getFechaVctoRevision() != null && auto.getValorDiario() != 0.0) {
+                    if (auto.getTipo().toUpperCase().equals("CITYCAR") || auto.getTipo().toUpperCase().equals("SUV") || auto.getTipo().toUpperCase().equals("DESCAPOTABLE") ||
+                            auto.getTipo().toUpperCase().equals("ALTAGAMA")) {
+                        if (auto.getEstadoArriendo().toUpperCase().equals("ARRENDADO") || auto.getEstadoArriendo().toUpperCase().equals("DISPONIBLE") ||
+                                auto.getEstadoArriendo().toUpperCase().equals("MANTENCION")) {
+                            if (auto.getNumAsientos() < 10 && auto.getNumAsientos() >= 2) {
+                                if (auto.getFabricado() <= 2007 && isPatternMatcher("[A-Z]{2}[1-9]{1}[0-9]{3}", auto.getPatente())) {
+                                    this.repository.save(auto);
+                                    response = "Automovil agregado!";
+                                } else if (auto.getFabricado() > 2007 && isPatternMatcher("[BCDFGHJKLPRSTVWXYZ]{4}[0-9]{2}", auto.getPatente())) {
+                                    this.repository.save(auto);
+                                    response = "Automovil agregado!";
+                                } else {
+                                    response = "Formato de patente invalido";
                                 }
-                                else
-                                    {
-                                    response = "estado de automovil no valido";
-                                }
+                            } else {
+                                response = "numero de asientos entre 2 - 9";
                             }
-                            else
-                                {
-                                response = "tipo de auto no valido";
-                            }
+                        } else {
+                            response = "estado de automovil no valido";
                         }
-                        else
-                            {
-                            response = "complete todos los campos";}
+                    } else {
+                        response = "tipo de auto no valido";
                     }
-                    else { response = "No se puede ingresar un vehiculo anterior al 2000"; }
+                } else {
+                    response = "complete todos los campos";
+                }
+            } else {
+                response = "No se puede ingresar un vehiculo anterior al 2000";
+            }
+        }
+        else {response="patente se encuentra registrada";}
         return response;
     }
 
@@ -99,7 +92,7 @@ public String actualizarAuto(Automovil auto, String patente) {
             autobd.setColor(auto.getColor());
         }
         if(auto.getFabricado() !=0 ) {
-            if (auto.getFabricado() > 2000 && auto.getFabricado()<2019) {
+            if (auto.getFabricado() > 2000 && auto.getFabricado()<=2019) {
                 autobd.setFabricado(auto.getFabricado());
             }else{
                 return "año fabricacion no valido";
