@@ -29,7 +29,7 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	compile group: 'org.mongodb', name: 'mongo-java-driver', version: '3.11.2'
 	compile group: 'org.springframework.boot', name: 'spring-boot-starter-data-mongodb', version: '2.2.1.RELEASE'
-
+	testCompile('org.springframework.boot:spring-boot-starter-test')
 	compileOnly 'org.projectlombok:lombok'
 	annotationProcessor 'org.projectlombok:lombok'
 	testImplementation('org.springframework.boot:spring-boot-starter-test') {
@@ -40,4 +40,5 @@ dependencies {
 
 test {
 	useJUnitPlatform()
+
 }

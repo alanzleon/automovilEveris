@@ -13,8 +13,12 @@ public interface IAutomovilRepository extends MongoRepository<Automovil, Seriali
 
     Automovil findByPatente (String patente);
 
+
     @Query("{'estadoArriendo':?0}")
     List<Automovil> findAutomovilesByEstadoArriendo (String estadoArriendo);
+
+    @Query(" $set: {'estadoArriendo':?0}")
+    void UpdateAutomovilStatus(String estadoArriendo, Automovil auto);
 
 
 }

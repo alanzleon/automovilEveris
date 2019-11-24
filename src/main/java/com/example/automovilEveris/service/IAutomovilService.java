@@ -12,6 +12,7 @@ public interface IAutomovilService {
     List<Automovil> obtenerAutomoviles ();
     //String updateAuto ( String patente,Automovil auto);
     Automovil findAutoByPatente(String id);
+    String updateAuto(String param, String patente);
     List<Automovil> findAutosByEstadoArriendo(String status);
 
 

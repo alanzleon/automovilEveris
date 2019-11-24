@@ -42,7 +42,6 @@ public class AutomovilService implements IAutomovilService{
                             } else {
                                 response = "tipo de auto no valido";
                             }
-
                         }
                         else {
                             response = "complete todos los campos";}
@@ -59,11 +58,17 @@ public class AutomovilService implements IAutomovilService{
 
     //actualiza la info de un auto
 
-    /*public String updateAuto(String patente, Automovil auto) {
+    public String updateAuto(String patente, String param) {
         Automovil autoEnBd = this.repository.findByPatente(patente);
-        this.repository.save(auto);
-        return patente;
-    }*/
+           if (autoEnBd!=null){
+            this.repository.UpdateAutomovilStatus(param, autoEnBd);
+            return "Actualizado";
+        }
+        else{
+               return "No fue actualizado";
+           }
+
+    }
 
     //encuentra un auto segun patente
     @Override
@@ -71,6 +76,7 @@ public class AutomovilService implements IAutomovilService{
         return this.repository.findByPatente(patente);
 
     }
+
 
     @Override
     public List<Automovil> findAutosByEstadoArriendo(String status) {
