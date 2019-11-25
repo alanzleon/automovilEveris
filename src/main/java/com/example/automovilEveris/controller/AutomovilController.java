@@ -22,13 +22,13 @@ import java.util.Map;
                 @Autowired
                 private AutomovilService service;
 
-                @GetMapping("/getAll")
+                @GetMapping()
                 public ResponseEntity<?> obtenerTodos(){
                     List<Automovil> autos = this.service.obtenerAutomoviles();
                     return new ResponseEntity<>(autos,HttpStatus.OK);
                 }
 
-                @GetMapping("/getByPatente/{patente}")
+                @GetMapping("/{patente}")
                 public ResponseEntity<?> getAutomovilByPatente(@PathVariable(value="patente") String patente){
                     ResponseEntity<?> response;
                     try{
@@ -41,7 +41,7 @@ import java.util.Map;
                     return response;
                 }
 
-                @GetMapping("/getAllByEstadoArriendo/{estadoArriendo}")
+                @GetMapping("/{estadoArriendo}")
                 public ResponseEntity<?> getAutosByStatus(@PathVariable(value="estadoArriendo") String status) {
                     ResponseEntity<?> response;
 
@@ -56,7 +56,7 @@ import java.util.Map;
 
 
                 }
-                    @DeleteMapping("/eliminarAuto/{patente}")
+                    @DeleteMapping("/{patente}")
                     public ResponseEntity<?> eliminarAuto (@PathVariable(value = "patente") String patente){
                         ResponseEntity<?> response;
                         try {
@@ -69,7 +69,7 @@ import java.util.Map;
                     }
 
     //@RequestMapping(value = "/actualizar/{patente}", method = RequestMethod.PUT)
-    @PutMapping("/actualizar/{patente}")
+    @PutMapping("/{patente}")
     public ResponseEntity<?> actualizar(@RequestBody Automovil auto, @PathVariable(value = "patente") String patente){
         ResponseEntity<?> response;
         String respuestaService = this.service.actualizarAuto(auto,patente);
@@ -119,7 +119,7 @@ import java.util.Map;
                         return response;
                     }
 */
-                    @PostMapping("/addAutomovil")
+                    @PostMapping()
                     public ResponseEntity<?> addAutomovil (@RequestBody Automovil auto){
 
                         ResponseEntity<?> response;
