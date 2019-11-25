@@ -44,7 +44,7 @@ import java.util.Map;
                 @GetMapping("/Arriendo")
                 public ResponseEntity<?> getAutosByStatus(String status) {
                     ResponseEntity<?> response;
-                    status="Disponible"        
+                    status="Disponible";
 
                         List<Automovil> autos = this.service.findAutosByEstadoArriendo(status);
                         if (autos.size()>0) {
