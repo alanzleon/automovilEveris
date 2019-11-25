@@ -77,10 +77,10 @@ import java.util.Map;
         try {
             switch(respuestaService) {
                 case "registro actualizado":
-                    response = new ResponseEntity<>("{\"Cliente actualizado\"}", HttpStatus.OK);
+                    response = new ResponseEntity<>("{\"Automovil actualizado\"}", HttpStatus.OK);
                     break;
                 case "no encontrado":
-                    response = new ResponseEntity<>("{\"Cliente No existe\"}",HttpStatus.NOT_FOUND);
+                    response = new ResponseEntity<>("{\"Automovil No existe\"}",HttpStatus.NOT_FOUND);
                     break;
                 case "año fabricacion no valido":
                     response = new ResponseEntity<>("{\"Año de fabricacion no valido\"}",HttpStatus.BAD_REQUEST);
